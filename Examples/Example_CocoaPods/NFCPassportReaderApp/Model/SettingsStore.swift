@@ -60,14 +60,14 @@ final class SettingsStore: ObservableObject {
         get { defaults.bool(forKey: Keys.captureLog) }
     }
     
-    var logLevel: LogLevel {
-        get {
-            return LogLevel(rawValue:defaults.integer(forKey: Keys.logLevel)) ?? .info
-        }
-        set {
-            defaults.set(newValue.rawValue, forKey: Keys.logLevel)
-        }
-    }
+//    var logLevel: LogLevel {
+//        get {
+//            return LogLevel(rawValue:defaults.integer(forKey: Keys.logLevel)) ?? .info
+//        }
+//        set {
+//            defaults.set(newValue.rawValue, forKey: Keys.logLevel)
+//        }
+//    }
     
     var useNewVerificationMethod: Bool {
         set { defaults.set(newValue, forKey: Keys.useNewVerification) }

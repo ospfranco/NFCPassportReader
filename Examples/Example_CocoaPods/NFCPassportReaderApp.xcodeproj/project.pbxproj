@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -52,7 +52,6 @@
 		3B684038F7C81C32BA310074 /* Pods-NFCPassportReaderAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NFCPassportReaderAppTests.debug.xcconfig"; path = "Target Support Files/Pods-NFCPassportReaderAppTests/Pods-NFCPassportReaderAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		574315DEF74ED0B9CC6A8DC7 /* Pods-NFCPassportReaderApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NFCPassportReaderApp.debug.xcconfig"; path = "Target Support Files/Pods-NFCPassportReaderApp/Pods-NFCPassportReaderApp.debug.xcconfig"; sourceTree = "<group>"; };
 		A1095E982588FBB100D2A46A /* CHANGELOG */ = {isa = PBXFileReference; lastKnownFileType = text; name = CHANGELOG; path = ../../../CHANGELOG; sourceTree = "<group>"; };
-		A1095E9B2589032D00D2A46A /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = readme.md; path = ../../readme.md; sourceTree = "<group>"; };
 		A1298C9E25D53A5C00F5713E /* ViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExt.swift; sourceTree = "<group>"; };
 		A1614B9125D5856600191749 /* ExportPassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportPassportView.swift; sourceTree = "<group>"; };
 		A16EB22D22A9E9E10008F53F /* NFCPassportReaderApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NFCPassportReaderApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,7 +153,6 @@
 				A16EB23E22A9E9E20008F53F /* Info.plist */,
 				A1DD3F3E22C535F00067255C /* masterList.pem */,
 				A1095E982588FBB100D2A46A /* CHANGELOG */,
-				A1095E9B2589032D00D2A46A /* readme.md */,
 			);
 			path = NFCPassportReaderApp;
 			sourceTree = "<group>";
@@ -380,9 +378,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-NFCPassportReaderApp/Pods-NFCPassportReaderApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-NFCPassportReaderApp/Pods-NFCPassportReaderApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -575,16 +577,20 @@
 				CODE_SIGN_ENTITLEMENTS = NFCPassportReaderApp/NFCPassportReader.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4.1;
-				DEVELOPMENT_TEAM = BV8DN58CD3;
+				DEVELOPMENT_TEAM = 24CMR7378R;
 				INFOPLIST_FILE = NFCPassportReaderApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.iag.nfcpassportreader;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ospfranco.nfcpassportreader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -600,16 +606,20 @@
 				CODE_SIGN_ENTITLEMENTS = NFCPassportReaderApp/NFCPassportReader.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4.1;
-				DEVELOPMENT_TEAM = BV8DN58CD3;
+				DEVELOPMENT_TEAM = 24CMR7378R;
 				INFOPLIST_FILE = NFCPassportReaderApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.iag.nfcpassportreader;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ospfranco.nfcpassportreader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -621,7 +631,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A4ZM73UFF5;
+				DEVELOPMENT_TEAM = 24CMR7378R;
 				INFOPLIST_FILE = NFCPassportReaderAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -643,7 +653,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A4ZM73UFF5;
+				DEVELOPMENT_TEAM = 24CMR7378R;
 				INFOPLIST_FILE = NFCPassportReaderAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (

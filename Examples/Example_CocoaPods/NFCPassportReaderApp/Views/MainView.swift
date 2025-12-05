@@ -146,11 +146,11 @@ extension MainView {
 //        let dataGroups : [DataGroupId] = [.COM, .SOD, .DG1, .DG2, .DG7, .DG11, .DG12, .DG14, .DG15]
 //        passportReader.readPassport(mrzKey: mrzKey, tags:dataGroups, completed: { (passport, error) in
         
-        Log.logLevel = settings.logLevel
-        Log.storeLogs = settings.shouldCaptureLogs
-        Log.clearStoredLogs()
-        
-        Log.error( "Using version \(UIApplication.version)" )
+//        Log.logLevel = settings.logLevel
+//        Log.storeLogs = settings.shouldCaptureLogs
+//        Log.clearStoredLogs()
+//        
+//        Log.error( "Using version \(UIApplication.version)" )
         
         Task {
             let customMessageHandler : (NFCViewDisplayMessage)->String? = { (displayMessage) in

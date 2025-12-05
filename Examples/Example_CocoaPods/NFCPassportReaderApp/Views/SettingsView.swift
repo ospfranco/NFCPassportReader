@@ -20,15 +20,15 @@ struct SettingsView: View {
                 Toggle(isOn: $settings.shouldCaptureLogs) {
                     Text("Should capture logs")
                 }
-                
-                Picker(
-                    selection: $settings.logLevel,
-                    label: Text("Logging level")
-                ) {
-                    ForEach(LogLevel.allCases, id: \.self) {
-                        Text(logLevels[$0.rawValue] ).tag($0)
-                    }
-                }
+//                
+//                Picker(
+//                    selection: $settings.logLevel,
+//                    label: Text("Logging level")
+//                ) {
+//                    ForEach(LogLevel.allCases, id: \.self) {
+//                        Text(logLevels[$0.rawValue] ).tag($0)
+//                    }
+//                }
 
             }
             
