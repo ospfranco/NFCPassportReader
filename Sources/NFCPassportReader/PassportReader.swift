@@ -52,6 +52,7 @@ import OSLog
     private var readAllDatagroups = false
     private var skipSecureElements = true
     private var skipCA = false
+    private var enforceCA = false
     private var skipPACE = false
 
     // Extended mode is used for reading eMRTD's that support extended length APDUs
@@ -94,7 +95,8 @@ import OSLog
     public func readPassport(
       mrzKey: String, tags: [DataGroupId] = [], aaChallenge: [UInt8]? = nil,
       skipSecureElements: Bool = true,
-      skipCA: Bool = false, skipPACE: Bool = false, useExtendedMode: Bool = false,
+      skipCA: Bool = false, enforceCA: Bool = false, skipPACE: Bool = false,
+      useExtendedMode: Bool = false,
       customDisplayMessage: ((NFCViewDisplayMessage) -> String?)? = nil
     ) async throws -> NFCPassportModel {
 
@@ -102,6 +104,7 @@ import OSLog
       self.mrzKey = mrzKey
       self.aaChallenge = aaChallenge
       self.skipCA = skipCA
+      self.enforceCA = enforceCA
       self.skipPACE = skipPACE
       self.useExtendedMode = useExtendedMode
 
@@ -375,6 +378,49 @@ import OSLog
       self.passport.BACStatus = .success
     }
 
+    func tryChipAuthentication(tagReader: TagReader, availableDataGroups: inout [DataGroupId])
+      async throws
+    {
+      if !availableDataGroups.contains(.DG14) {
+        self.passport.chipAuthenticationStatus = .failed
+        return
+      }
+
+      availableDataGroups.removeAll { $0 == .DG14 }
+
+      if skipCA {
+        self.passport.chipAuthenticationStatus = .failed
+        return
+      }
+
+      guard let dg14 = try await readDataGroup(tagReader: tagReader, dgId: .DG14) as? DataGroup14
+      else {
+        self.passport.chipAuthenticationStatus = .failed
+        throw NFCPassportReaderError.ChipAuthenticationFailed
+      }
+
+      self.passport.addDataGroup(.DG14, dataGroup: dg14)
+      let caHandler = ChipAuthenticationHandler(dg14: dg14, tagReader: tagReader)
+
+      if caHandler.isChipAuthenticationSupported {
+        do {
+          // Do Chip authentication and then continue reading datagroups
+          try await caHandler.doChipAuthentication()
+          Logger.passportReader.info("Chip Authentication succeeded")
+          self.passport.chipAuthenticationStatus = .success
+        } catch {
+          Logger.passportReader.info("Chip Authentication failed \(error) - re-establishing BAC")
+          self.passport.chipAuthenticationStatus = .failed
+
+          // Failed Chip Auth, need to re-establish BAC
+          try await doBACAuthentication(tagReader: tagReader)
+        }
+      } else {
+        self.passport.chipAuthenticationStatus = .failed
+      }
+
+    }
+
     func readDataGroups(tagReader: TagReader) async throws {
       var availableDataGroups = [DataGroupId]()
 
@@ -386,31 +432,14 @@ import OSLog
         self.addAvailableDataGroups(com: com, to: &availableDataGroups)
       }
 
-      if availableDataGroups.contains(.DG14) {
-        availableDataGroups.removeAll { $0 == .DG14 }
+      try await tryChipAuthentication(
+        tagReader: tagReader,
+        availableDataGroups: &availableDataGroups
+      )
 
-        if !skipCA {
-          // Do Chip Authentication
-          if let dg14 = try await readDataGroup(tagReader: tagReader, dgId: .DG14) as? DataGroup14 {
-            self.passport.addDataGroup(.DG14, dataGroup: dg14)
-            let caHandler = ChipAuthenticationHandler(dg14: dg14, tagReader: tagReader)
-
-            if caHandler.isChipAuthenticationSupported {
-              do {
-                // Do Chip authentication and then continue reading datagroups
-                try await caHandler.doChipAuthentication()
-                Logger.passportReader.info("Chip Authentication succeeded")
-                self.passport.chipAuthenticationStatus = .success
-              } catch {
-                Logger.passportReader.info("Chip Authentication failed - re-establishing BAC")
-                self.passport.chipAuthenticationStatus = .failed
-
-                // Failed Chip Auth, need to re-establish BAC
-                try await doBACAuthentication(tagReader: tagReader)
-              }
-            }
-          }
-        }
+      // If Chip Authentication is enforced but it failed, bail out
+      if self.enforceCA && self.passport.chipAuthenticationStatus == .failed {
+        throw NFCPassportReaderError.ChipAuthenticationFailed
       }
 
       // If we are skipping secure elements then remove .DG3 and .DG4
